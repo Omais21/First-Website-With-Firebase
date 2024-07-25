@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Website With Firebase</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="login">
+    <h1>Log In</h1>
+    <input type="text" id="email" placeholder="Enter Email" autocomplete="off">
+    <input type="password" id="Password" placeholder="Enter Password" autocomplete="off">
+    <button id="Logninbtn">Login</button>
+    </div>
+
+<!-- my blog area admin -->
+ <div class="my_blog">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#" id="Logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="notifi"></div>
+    <div class="container main">
+        <div class="main_content">
+            <!-- post form -->
+            <div class="post_form">
+                <label for="Title"></label>
+            <input type="text" id="title" placeholder="enter title">            
+          <label>Your Post</label>
+        <textarea name="" id="post_content" cols="30" rows="10"></textarea>
+        <button id="post_btn">Post Now</button>
+        <button class="update_btn">Update Post</button>
+        </div>
+        <!-- table -->
+         <div class="my_content">
+            <h2>My Posts</h2>
+            <table>
+
+            </table>
+         </div>
+        </div>
+     </div>
+    <footer>
+        <div class="footer">
+            <p>Copy Right Text Reserve Omais Rana</p>
+        </div>
+    </footer>
+
+ </div>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
