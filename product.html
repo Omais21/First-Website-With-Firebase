@@ -34,7 +34,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#" id='home'>Electronic Store</a>
+        <a class="navbar-brand" href="#" id='home'>Ale´s Shop</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -69,43 +69,27 @@
       </div>
     </div>
   </nav>
-
-
-<!-- Store Body  -->
-  <div class='container-fluid' id='store_body' style='padding:0;'>
-
-<div class='container-fluid padding-2' id='products'>
-
+  <div id='productDetails' class='container-fluid padding-2'>
+  </div>
+  <div class='container-fluid padding-2' id='comments'>
+    <h3 class='text-center'>Comments</h3>
+    <div class="media">
+  <div class="media-left">
+    <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:60px">
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading" id='commentHeading'></h4>
+    <textarea placeholder="write your comment" rows="2" cols="30" style='width:100%'  class="form-control" id='commentArea'></textarea>
+    <div class='form-group'>
+    <button type='button' id='commentSubmit' class='btn btn-comment' >Comment</button>
+    <a href='auth.html' type='button' id='loginFromComment' clasS='btn btn-comment  btn-block'>Login</a>
+  </div>
+  </div>
 </div>
+  </div>
 
-<div class='container-fluid padding-2' id='tablets'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='phones'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='laptops'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='gaming'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='cameras'>
-
-
-</div>
-
-<div class='container-fluid text-center padding-1 footer'>
-  <h4>Copy Right Reserved</h4>
-</div>
+  <div class='container-fluid text-center padding-1 footer'>
+    <h4>Copy Right Reserved</h4>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
@@ -113,71 +97,67 @@
   <script src='js/database.js'></script>
   <script src='js/userInfo.js'></script>
   <script src='js/URLparams.js'></script>
-  <script src='js/shopItems.js'></script>
-  <script src="js/index.js"></script>
-  <!-- <script>
-  if(c != null){
-  showShopItems(databaseRef, products, filter = {
-    byChild:true,
-    child:'category',
-    equalTo:c
+  <script src="js/product.js"></script>
+  <!-- <script> let id = url.searchParams.get('id');
+  if(!id){
+    window.location.href = 'index.html';
+  }
+  </script>
+  <script>
+
+  let commentsPanel = document.getElementById('comments');
+  let commentHeading = document.getElementById('commentHeading');
+  let commentArea = document.getElementById('commentArea');
+  let commentSubmit = document.getElementById('commentSubmit');
+  let loginFromComment  =document.getElementById('loginFromComment');
+
+//An observer when the user logs in or logs out
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+  //user logs in
+  loginFromComment.style = 'display:none';
+  firebase.database().ref('users/' + user.uid).on('value', snap => {
+    commentArea.style  ='display:block';
+    commentSubmit.style = 'display:block';
+
+    if(typeof snap.val().username == 'undefined'){
+      commentHeading.innerHTML = snap.val().email;
+    }else {
+      commentHeading.innerHTML = snap.val().username;
+    }
   });
 
-  document.getElementById('products').style = 'display:block';
-}
-
-if(c == null){
-document.getElementById('products').style = 'display:none';
-
-const tablets = document.getElementById('tablets');
-showShopItemsMain(databaseRef, tablets, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'tablets',
-  limitToFirst:{limit:4},
-}, 'tablets');
-
-const phones = document.getElementById('phones');
-showShopItemsMain(databaseRef, phones, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'phones',
-  limitToFirst:{limit:4},
-}, 'phones');
+  //adds the product to cart for the active user
 
 
-const laptops = document.getElementById('laptops');
-showShopItemsMain(databaseRef, laptops, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'laptops',
-  limitToFirst:{limit:4},
-}, 'laptops');
+    }else {
+      //user logs out
+      commentHeading.innerHTML = 'You are not logged in';
+      commentArea.style  ='display:none';
+      commentSubmit.style = 'display:none';
+      loginFromComment.style = 'display:block';
+    }
+  });
 
-const gaming = document.getElementById('gaming');
-showShopItemsMain(databaseRef, gaming, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'gaming',
-  limitToFirst:{limit:4},
-}, 'gaming');
-
-const cameras = document.getElementById('cameras');
-showShopItemsMain(databaseRef, cameras, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'cameras',
-  limitToFirst:{limit:4},
-}, 'cameras');
-
-}else {
-  tablets.style = 'display:none';
-  phones.style = 'display:none';
-  laptops.style = 'display:none';
-  gaming.style = 'display:none';
-  cameras.style  ='display:none';
-}
-  </script> -->
+//An event listener when the user click on the button comment
+  commentSubmit.addEventListener('click', e => {
+    let Puser = firebase.auth().currentUser;
+    if(Puser != null){
+    firebase.database().ref('users/' + Puser.uid).on('value', snap => {
+      if(typeof snap.val().username == 'undefined'){
+        setComment(snap.val().email, snap.key, commentArea.value, new Date());
+      }else {
+        setComment(snap.val().username, snap.key, commentArea.value, new Date());
+      }
+    });
+  }
+  });
+//shows in screen the comments
+  firebase.database().ref('comments/' + id).on('child_added', snap => {
+      buildComments(commentsPanel, snap);
+  }); -->
+  </script>
+  <script src='js/productDetails.js'></script>
 
 </body>
 </html>

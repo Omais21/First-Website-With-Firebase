@@ -34,7 +34,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#" id='home'>Electronic Store</a>
+        <a class="navbar-brand" href="#" id='home'>Ale´s Shop</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -64,120 +64,61 @@
 
               </ul>
             </li>
-            <li><a href='cart.html'>Cart <span class='glyphicon glyphicon-shopping-cart'></span></a></li>
+            <li class='active'><a href='#'>Cart <span class='glyphicon glyphicon-shopping-cart'></span></a></li>
         </ul>
       </div>
     </div>
   </nav>
 
+  <div class='container-fluid'>
+    <div class='container  checkout' id='checkout'>
+    </div>
 
-<!-- Store Body  -->
-  <div class='container-fluid' id='store_body' style='padding:0;'>
-
-<div class='container-fluid padding-2' id='products'>
-
-</div>
-
-<div class='container-fluid padding-2' id='tablets'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='phones'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='laptops'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='gaming'>
-
-
-</div>
-
-<div class='container-fluid padding-2' id='cameras'>
-
-
+   <div  class="container padding-2" id='cart'>
+   </div>
 </div>
 
 <div class='container-fluid text-center padding-1 footer'>
-  <h4>Copy Right Reserved</h4>
+  <h4>Copy Right Rese</h4>
 </div>
-  </div>
 
   <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
   <script src='js/firebaseConfig.js'></script>
-  <script src='js/database.js'></script>
   <script src='js/userInfo.js'></script>
-  <script src='js/URLparams.js'></script>
-  <script src='js/shopItems.js'></script>
-  <script src="js/index.js"></script>
+  <script src='js/cart.js'></script>
+  <script src="js/car.js"></script>
   <!-- <script>
-  if(c != null){
-  showShopItems(databaseRef, products, filter = {
-    byChild:true,
-    child:'category',
-    equalTo:c
-  });
+  let checkout = document.getElementById('checkout');
+    let cart = document.getElementById('cart');
 
-  document.getElementById('products').style = 'display:block';
-}
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+    firebase.database().ref('cart/' + user.uid).on('value', snap => {
+      if(document.getElementById('checkoutRow') != null){
+        document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+      }
+      buildProceedToCheckOut(snap, checkout);
+    });
+    //user logs in
+    firebase.database().ref('cart/' + user.uid).on('child_added', snap => {
+      buildCartProducts(snap, cart);
+    });
 
-if(c == null){
-document.getElementById('products').style = 'display:none';
+      }else {
+        //user logs out
+        if(document.getElementById('checkoutRow') != null){
+          document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+        }
 
-const tablets = document.getElementById('tablets');
-showShopItemsMain(databaseRef, tablets, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'tablets',
-  limitToFirst:{limit:4},
-}, 'tablets');
-
-const phones = document.getElementById('phones');
-showShopItemsMain(databaseRef, phones, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'phones',
-  limitToFirst:{limit:4},
-}, 'phones');
-
-
-const laptops = document.getElementById('laptops');
-showShopItemsMain(databaseRef, laptops, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'laptops',
-  limitToFirst:{limit:4},
-}, 'laptops');
-
-const gaming = document.getElementById('gaming');
-showShopItemsMain(databaseRef, gaming, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'gaming',
-  limitToFirst:{limit:4},
-}, 'gaming');
-
-const cameras = document.getElementById('cameras');
-showShopItemsMain(databaseRef, cameras, filter = {
-  byChild:true,
-  child:'category',
-  equalTo:'cameras',
-  limitToFirst:{limit:4},
-}, 'cameras');
-
-}else {
-  tablets.style = 'display:none';
-  phones.style = 'display:none';
-  laptops.style = 'display:none';
-  gaming.style = 'display:none';
-  cameras.style  ='display:none';
-}
-  </script> -->
-
-</body>
-</html>
+        let items = document.getElementsByClassName('item');
+        if(items[items.length - 1]){
+          for(let i = 0; i < items.length; i++){
+            items[i].parentNode.removeChild(items[i]);
+          }
+        }
+        buildLoginBtn(cart, 'auth.html?auth=login');
+      }
+    }); -->
+  </script>
+  </body>
+  </html>
